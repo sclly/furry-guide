@@ -1,0 +1,113 @@
+HDFS
+
+Initialise
+==========
+source /opt/client/bigdata_env
+
+Help
+====
+hdfs dfs -help
+
+Available Commands 
+==================
+ls, mkdir, cat, chmod, cp, mv, rm
+
+hdfs dfs -*command* 
+
+Special commands
+================
+Copy file from local to HDFS 
+hdfs dfs -put local_file /hdfs_folder
+
+Move items from local to HDFS 
+hdfs dfs -moveFromLocal local_file /hdfs_folder
+
+Get file from HDFS to local
+hdfs dfs -get /hdfs_file .
+
+Append file to HDFS file
+hdfs dfs -appendToFile local_file /hdfs_file
+
+Merge files in HDFS (files in the same directory) and save in local 
+hdfs dfs -getmerge /hdfs_folder merged_file
+
+Check available space of file system 
+hdfs dfs -df -h /hdfs_folder
+
+Check folder size 
+hdfs dfs -du -h /hdfs_folder
+
+Count no. of files in directory
+hdfs dfs -count -h /hdfs_folder
+
+Check delete files in HDFS
+hdfs dfs -ls /user/*username*/.Trash/
+
+HBase
+
+Initialise
+==========
+source /opt/client/bigdata_env
+hbase shell 
+
+Commands
+========
+Create table
+create 'table_name', 'column_family_name'
+
+Add data to table
+put 'table_name', '0', 'column_family_name:student_name','milton'
+put 'table_name', '1', 'column_family_name:student_name','syahmi'
+put 'table_name', '2', 'column_family_name:student_name','lincoln'
+
+put 'table_name', '3', 'column_family_name:student_name','3'
+Retrieve data from table
+get 'table_name', '0'
+
+Scan data
+scan 'table_name', {COLUMNS => 'column_family_name'}
+scan 'table_name', {COLUMNS => 'column_family_name:student_name'}
+
+Scan data and limit 
+scan 'table_name', {STARTROW => '0', 'LIMIT' => 2}
+scan 'table_name', {COLUMNS => 'column_family_name:student_name', STARTROW => '0', 'LIMIT' => 2}
+
+Scan data and filter 
+scan 'table_name', {FILTER => "ValueFilter (=,'binary:syahmi')"}
+
+Delete data
+delete 'table_name', '1', 'column_family_name:student_name'
+deleteall 'table_name', '1'
+
+scan 'table_name',{FILTER=>"ColumnPrefixFilter('student_name')"}
+
+Delete table
+disable 'table_name'
+drop 'table_name'
+
+Hive
+
+Initialise
+==========
+source /opt/client/bigdata_env
+beeline
+
+Commands
+========
+Create table
+create table table_name (column_one string, column_two int) row format delimited fields terminated by ',' stored as textfile location '/data';
+
+Show tables
+show tables;
+
+Delete table
+drop table table_name;
+
+Load data
+load data local inpath '/root/hello.dat' into table table_name
+
+Change compute engine for spark 
+set hibe.execution.engine = spark;
+
+Enable merge small files
+set hive.merge.mappedfiles = true;
